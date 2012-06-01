@@ -1,6 +1,6 @@
 Socialstream::Application.routes.draw do
   match '/auth/:provider/callback' => 'authentications#create'
-  devise_for :users
+  devise_for :users, :controllers => {:registrations => 'registrations'}
   resources :authentications
   # The priority is based upon order of creation:
   # first created -> highest priority.

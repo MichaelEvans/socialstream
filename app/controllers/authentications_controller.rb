@@ -5,6 +5,7 @@ class AuthenticationsController < ApplicationController
 
   def create
     omniauth = request.env["omniauth.auth"]
+    puts omniauth.to_yaml
     authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
     if authentication
       flash[:notice] = "Authentication successful."
@@ -15,7 +16,7 @@ class AuthenticationsController < ApplicationController
       redirect_to authentications_url
     else
       user = User.new
-      user.authentications.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
+      user.apply_omniauth(omniauth)
       if user.save
         flash[:notice] = "Authentication successful."
         sign_in_and_redirect(:user, user)
