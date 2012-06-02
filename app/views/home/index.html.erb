@@ -1,10 +1,7 @@
-<% @github_events.each do |event| %>
+<% @facebook_events.each do |event| %>
 	<p><% event.to_json %></p>
 <% end %>
 
-<% @tweet_events.each do |event| %>
-	<p><% event.to_json %></p>
-<% end %>
 
 <% @events.each do |event| %>
 	<%= event.feed %>

@@ -32,9 +32,12 @@ gem 'omniauth-facebook'
 
 gem 'hashie'
 
+gem 'koala'
 gem 'twitter'
 gem 'github_api'
 
+gem 'thin'
+gem 'fb_graph'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

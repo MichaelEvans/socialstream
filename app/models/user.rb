@@ -33,6 +33,16 @@ class User < ActiveRecord::Base
     end
     @github_user
   end
+
+  def facebook
+    unless @facebook_user
+      provider = self.authentications.find_by_provider('facebook')
+      #@facebook_user = FbGraph::User.new("me", :access_token => provider.token) rescue nil
+      @facebook_user = Koala::Facebook::API.new(provider.token) rescue nil
+    end
+    @facebook_user
+  end
+
 protected
   def hash_from_omniauth(omniauth)
     {
