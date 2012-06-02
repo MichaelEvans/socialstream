@@ -43,6 +43,10 @@ class User < ActiveRecord::Base
     @facebook_user
   end
 
+  def linkedin
+    #client = LinkedIn::Client.new
+    #client.authorize_from_access("access_token", "access_token_secret")
+  end
 protected
   def hash_from_omniauth(omniauth)
     {
