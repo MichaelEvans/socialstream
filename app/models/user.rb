@@ -11,10 +11,35 @@ class User < ActiveRecord::Base
   has_many :authentications
 
   def apply_omniauth(omniauth)
-    authentications.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
+    authentications.build(hash_from_omniauth(omniauth))
   end
 
   def password_required?
     (authentications.empty? || !password.blank?) && super
+  end
+
+  def twitter
+    unless @twitter_user
+      provider = self.authentications.find_by_provider('twitter')
+      @twitter_user = Twitter::Client.new(:oauth_token => provider.token, :oauth_token_secret => provider.secret) rescue nil
+    end
+    @twitter_user
+  end
+
+  def github
+    unless @github_user
+      provider = self.authentications.find_by_provider('github')
+      @github_user = Github.new(:login => provider.uid, :oauth_token => provider.token) rescue nil
+    end
+    @github_user
+  end
+protected
+  def hash_from_omniauth(omniauth)
+    {
+      :provider => omniauth['provider'], 
+      :uid => omniauth['uid'], 
+      :token => (omniauth['credentials']['token'] rescue nil),
+      :secret => (omniauth['credentials']['secret'] rescue nil)
+    }
   end
 end

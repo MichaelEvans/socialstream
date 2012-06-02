@@ -1,0 +1,19 @@
+<% @github_events.each do |event| %>
+	<p><% event.to_json %></p>
+<% end %>
+
+<% @tweet_events.each do |event| %>
+	<p><% event.to_json %></p>
+<% end %>
+
+<% @events.each do |event| %>
+	<%= event.feed %>
+	<%= 
+	if event.type
+		"#{event.type} #{Time.parse(event.created_at).to_i}"
+	else
+		"Tweet #{Time.parse(event.created_at).to_i}"
+	end
+	 %>
+	 <br />
+<% end %>
